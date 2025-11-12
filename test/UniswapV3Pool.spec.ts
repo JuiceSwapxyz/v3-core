@@ -1070,8 +1070,23 @@ describe('UniswapV3Pool', () => {
       expect((await pool.slot0()).feeProtocol).to.eq(102)
     })
 
+    it('can be set to 2 (50% protocol fee)', async () => {
+      await pool.setFeeProtocol(2, 2)
+      expect((await pool.slot0()).feeProtocol).to.eq(34) // 2 + (2 << 4)
+    })
+
+    it('can be set to 3 (33% protocol fee)', async () => {
+      await pool.setFeeProtocol(3, 3)
+      expect((await pool.slot0()).feeProtocol).to.eq(51) // 3 + (3 << 4)
+    })
+
+    it('can be set to different values for token0 and token1', async () => {
+      await pool.setFeeProtocol(2, 10)
+      expect((await pool.slot0()).feeProtocol).to.eq(162) // 2 + (10 << 4)
+    })
+
     it('cannot be changed out of bounds', async () => {
-      await expect(pool.setFeeProtocol(3, 3)).to.be.reverted
+      await expect(pool.setFeeProtocol(1, 1)).to.be.reverted
       await expect(pool.setFeeProtocol(11, 11)).to.be.reverted
     })
 
@@ -1632,10 +1647,10 @@ describe('UniswapV3Pool', () => {
     it('can only be called by factory owner', async () => {
       await expect(pool.connect(other).setFeeProtocol(5, 5)).to.be.reverted
     })
-    it('fails if fee is lt 4 or gt 10', async () => {
-      await expect(pool.setFeeProtocol(3, 3)).to.be.reverted
-      await expect(pool.setFeeProtocol(6, 3)).to.be.reverted
-      await expect(pool.setFeeProtocol(3, 6)).to.be.reverted
+    it('fails if fee is lt 2 or gt 10', async () => {
+      await expect(pool.setFeeProtocol(1, 1)).to.be.reverted
+      await expect(pool.setFeeProtocol(6, 1)).to.be.reverted
+      await expect(pool.setFeeProtocol(1, 6)).to.be.reverted
       await expect(pool.setFeeProtocol(11, 11)).to.be.reverted
       await expect(pool.setFeeProtocol(6, 11)).to.be.reverted
       await expect(pool.setFeeProtocol(11, 6)).to.be.reverted
