@@ -1,20 +1,23 @@
 {
-  "name": "@uniswap/v3-core",
-  "description": "🦄 Core smart contracts of Uniswap V3",
-  "license": "BUSL-1.1",
+  "name": "@juiceswapxyz/v3-core",
+  "description": "🧃 Core smart contracts of JuiceSwap V3 (Uniswap V3 fork with 50% max protocol fee)",
+  "license": "GPL-2.0-or-later",
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.1",
-  "homepage": "https://uniswap.org",
+  "version": "1.0.0",
+  "homepage": "https://juiceswap.com",
   "keywords": [
+    "juiceswap",
     "uniswap",
+    "dex",
+    "amm",
     "core",
     "v3"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Uniswap/uniswap-v3-core"
+    "url": "https://github.com/JuiceSwapXyz/v3-core"
   },
   "files": [
     "contracts/interfaces",
@@ -55,6 +58,7 @@
   "scripts": {
     "compile": "hardhat compile",
     "test": "TS_NODE_TRANSPILE_ONLY=true hardhat test",
-    "compute-pool-hash": "hardhat run scripts/computePoolInitCodeHash.ts"
+    "compute-pool-hash": "hardhat run scripts/computePoolInitCodeHash.ts",
+    "prepublishOnly": "npm run compile"
   }
 }
